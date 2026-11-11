@@ -1,0 +1,18 @@
+:root {
+  --youtube-notes-dock-width: clamp(296px, 25vw, 360px);
+}
+
+@media (min-width: 960px) {
+  ytd-watch-flexy[data-ytn-dock] {
+    box-sizing: border-box;
+    max-width: calc(100% - var(--youtube-notes-dock-width));
+  }
+
+  ytd-watch-flexy[data-ytn-dock="left"] {
+    margin-left: var(--youtube-notes-dock-width);
+  }
+
+  ytd-watch-flexy[data-ytn-dock="right"] {
+    margin-right: var(--youtube-notes-dock-width);
+  }
+}

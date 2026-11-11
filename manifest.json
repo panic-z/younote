@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube 视频笔记",
+  "description": "在 YouTube 播放器旁写带时间点的笔记，并导入或导出备份。",
+  "version": "0.4.1",
+  "permissions": ["storage"],
+  "background": { "service_worker": "src/background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "css": ["src/layout.css"],
+      "js": ["src/notes.js", "src/backup.js", "src/player.js", "src/panel-style.js", "src/panel.js", "src/content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
