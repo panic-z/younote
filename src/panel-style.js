@@ -165,7 +165,7 @@ const notesStyles = `
   form { display: grid; gap: 4px; margin: 7px 0 8px; }
   textarea { width: 100%; min-height: 74px; resize: vertical; border: 1px solid var(--line); border-radius: 7px; background: var(--field); padding: 7px 9px; }
   textarea:focus-visible { outline-offset: 1px; }
-  .saved-notes > summary { padding: 6px 2px; cursor: pointer; font-weight: 650; }
+  .saved-notes > summary { padding: 6px 2px; cursor: pointer; font-size: 12px; font-weight: 650; }
   .saved-notes > summary:hover { color: var(--accent); }
   ol { list-style: none; margin: 0; padding: 0; max-height: 290px; overflow: auto; }
   li { padding: 7px 0; border-top: 1px solid var(--line); }
