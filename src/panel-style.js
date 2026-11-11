@@ -39,6 +39,14 @@ const notesStyles = `
   }
   *, *::before, *::after { box-sizing: border-box; }
   [hidden] { display: none !important; }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
   :host(:is([data-layout="left"], [data-layout="right"], [data-layout="floating"])) .panel {
     max-height: calc(100dvh - var(--notes-top, 64px) - 8px);
@@ -98,8 +106,8 @@ const notesStyles = `
   }
   .resize-handle[data-edge="left"]::before { transform: scaleX(-1); }
   header, .buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  header { justify-content: space-between; padding: 14px 16px; }
-  h2 { margin: 0; font-size: 16px; font-weight: 700; }
+  header { justify-content: space-between; gap: 4px 8px; padding: 8px 16px; }
+  h2 { margin: 0; font-size: 14px; font-weight: 700; }
   button, select, textarea { font: inherit; color: inherit; }
   button, select {
     border: 1px solid var(--line);
@@ -108,6 +116,12 @@ const notesStyles = `
     min-height: 32px;
     padding: 4px 10px;
     cursor: pointer;
+  }
+  header .buttons, .editor-actions { gap: 4px; }
+  header :is(button, select), .editor-actions button {
+    min-height: 26px;
+    padding: 2px 7px;
+    font-size: 12px;
   }
   button:hover:enabled { background: var(--tint); }
   :is(button, select, textarea, summary, h2):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -148,8 +162,9 @@ const notesStyles = `
   .status { margin: 8px 0 0; }
   .status:empty { margin: 0; }
   .empty { margin: 6px 0 0; }
-  form { display: grid; gap: 9px; margin: 10px 0; padding: 12px; border: 1px solid var(--line); border-radius: 9px; }
-  textarea { width: 100%; min-height: 74px; resize: vertical; border: 1px solid var(--line); border-radius: 7px; background: var(--field); padding: 9px; }
+  form { display: grid; gap: 4px; margin: 7px 0 8px; }
+  textarea { width: 100%; min-height: 74px; resize: vertical; border: 1px solid var(--line); border-radius: 7px; background: var(--field); padding: 7px 9px; }
+  textarea:focus-visible { outline-offset: 1px; }
   .saved-notes > summary { padding: 6px 2px; cursor: pointer; font-weight: 650; }
   .saved-notes > summary:hover { color: var(--accent); }
   ol { list-style: none; margin: 0; padding: 0; max-height: 290px; overflow: auto; }

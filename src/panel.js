@@ -22,7 +22,6 @@ class NotesPanel {
   #width = 0;
   #resize;
   #canCapture = false;
-  #preview;
   #anchor;
   #draft = false;
   #saving = false;
@@ -112,7 +111,7 @@ class NotesPanel {
       event.preventDefault();
       actions.save(this.input.value);
     });
-    this.draftAnchor = panelElement('strong', 'anchor');
+    this.draftAnchor = panelElement('span', 'visually-hidden');
     this.draftAnchor.id = 'notes-position';
     this.input = panelElement('textarea');
     this.input.placeholder = '直接在这里写笔记…';
@@ -121,15 +120,13 @@ class NotesPanel {
     this.input.required = true;
     this.input.maxLength = NOTE_LIMIT;
     this.input.addEventListener('input', () => actions.change(this.input.value));
-    const binding = panelElement('div', 'buttons');
-    this.bindTime = panelButton('绑定当前时间', actions.rebind, 'small');
-    binding.append(this.draftAnchor, this.bindTime);
-    const submit = panelElement('div', 'buttons');
+    this.bindTime = panelButton('绑定当前时间', actions.rebind);
+    const submit = panelElement('div', 'buttons editor-actions');
     this.save = panelElement('button', 'primary', '保存');
     this.save.type = 'submit';
     this.cancel = panelButton('取消', actions.cancel);
-    submit.append(this.save, this.cancel);
-    this.form.append(binding, this.input, submit);
+    submit.append(this.save, this.cancel, this.bindTime);
+    this.form.append(this.input, submit, this.draftAnchor);
 
     // While editing, keep YouTube's global playback shortcuts away from the textarea.
     for (const event of ['keydown', 'keypress', 'keyup']) {
@@ -249,7 +246,6 @@ class NotesPanel {
   updatePlayer(player) {
     const duration = player?.canJump ? player.video.duration : 0;
     this.#canCapture = Boolean(player?.canCapture);
-    this.#preview = duration ? player.video.currentTime : undefined;
     this.#updateEditor();
     this.timeline.hidden = !duration;
     if (duration !== this.#duration) {
@@ -340,11 +336,10 @@ class NotesPanel {
   }
 
   #updateEditor() {
-    let label = '等待视频加载';
-    if (this.#anchor) label = `已绑定 ${formatTime(this.#anchor.time, true)}`;
-    else if (this.#draft) label = '等待可记录的播放时间';
-    else if (validTime(this.#preview)) label = `当前时间 ${formatTime(this.#preview)}`;
+    const label = this.#anchor ? `已绑定 ${formatTime(this.#anchor.time, true)}` :
+      (this.#draft ? '等待可记录的播放时间' : '');
     if (this.draftAnchor.textContent !== label) this.draftAnchor.textContent = label;
+    if (this.bindTime.title !== label) this.bindTime.title = label;
     this.bindTime.hidden = this.cancel.hidden = !this.#draft;
     this.bindTime.disabled = !this.#canCapture || this.#saving;
     this.save.disabled = this.#saving || !this.#anchor || !this.input.value.trim();
